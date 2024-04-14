@@ -72,7 +72,7 @@ namespace Editor
 
             if (attachedSuccessfully)
             {
-                Debug.Log("Haptics integration completed successfully.");
+                Debug.Log("<color=green>Haptics integration completed successfully.</color>");
             }
             else
             {
