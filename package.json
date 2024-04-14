@@ -1,0 +1,15 @@
+{
+  "name": "com.shockwave.vrchat.integration",
+  "version": "1.0.0",
+  "displayName": "Shockwave integration for VRChat",
+  "description": "Allows to add support for the Shockwave suit to VRChat avatars.",
+  "unity": "2022.3",
+  "keywords": [
+    "vrchat",
+    "shockwave",
+    "avatar"
+  ],
+  "author": {
+    "name": "Nicolas Aubinet"
+  }
+}
