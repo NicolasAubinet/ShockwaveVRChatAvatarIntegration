@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -10,7 +11,21 @@ namespace Editor
     public class ShockwaveVRChatIntegration : UnityEditor.Editor
     {
         private const string PackageName = "com.shockwave.vrchat.integration";
+        private const string CollidersDirectory = "Packages/" + PackageName + "/Prefabs/HapticRegions/";
         private const string RemoveHapticsActionName = "Remove haptics from avatar";
+
+        private static readonly Dictionary<string, HumanBodyBones> PrefabNameToBone = new()
+        {
+            { "ShockwaveChestColliders", HumanBodyBones.Chest },
+            { "ShockwaveLeftCalfColliders", HumanBodyBones.LeftLowerLeg },
+            { "ShockwaveLeftLowerArmColliders", HumanBodyBones.LeftLowerArm },
+            { "ShockwaveLeftThighColliders", HumanBodyBones.LeftUpperLeg },
+            { "ShockwaveLeftUpperArmColliders", HumanBodyBones.LeftUpperArm },
+            { "ShockwaveRightCalfColliders", HumanBodyBones.RightLowerLeg },
+            { "ShockwaveRightLowerArmColliders", HumanBodyBones.RightLowerArm },
+            { "ShockwaveRightThighColliders", HumanBodyBones.RightUpperLeg },
+            { "ShockwaveRightUpperArmColliders", HumanBodyBones.RightUpperArm },
+        };
 
         [MenuItem("GameObject/Shockwave/Add haptics to avatar", false, -1)]
         public static void AttachShockwaveColliders()
@@ -30,21 +45,20 @@ namespace Editor
                 return;
             }
 
-            var existingHapticRegions = gameObject.GetComponentsInChildren<HapticRegion>();
+            var existingHapticRegions = gameObject.GetComponentsInChildren<VRCContactReceiver>();
             if (existingHapticRegions.Length > 0)
             {
                 Debug.LogError($"Found existing haptics on avatar. Use the \"{RemoveHapticsActionName}\" action to remove them. Canceling operation.");
                 return;
             }
 
-            string collidersDirectory = $"Packages/{PackageName}/Prefabs/HapticRegions/";
-            var directoryInfo = new DirectoryInfo(collidersDirectory);
+            var directoryInfo = new DirectoryInfo(CollidersDirectory);
             var fileInfo = directoryInfo.GetFiles("*.prefab");
             bool attachedSuccessfully = true;
 
             foreach (FileInfo info in fileInfo)
             {
-                string relativePath = collidersDirectory + info.Name;
+                string relativePath = CollidersDirectory + info.Name;
                 GameObject prefab = (GameObject) EditorGUIUtility.Load(relativePath);
                 if (prefab == null)
                 {
@@ -53,11 +67,17 @@ namespace Editor
                     continue;
                 }
 
-                var hapticRegion = prefab.GetComponent<HapticRegion>();
-                Transform parent = animator.GetBoneTransform(hapticRegion.bones);
+                string prefabName = prefab.name;
+                if (!PrefabNameToBone.TryGetValue(prefabName, out var bone))
+                {
+                    Debug.LogWarning($"Could not find prefab with name {prefabName}");
+                    continue;
+                }
+
+                Transform parent = animator.GetBoneTransform(bone);
                 if (parent == null)
                 {
-                    Debug.LogError($"Could not find bone {hapticRegion.bones} to attach haptic nodes");
+                    Debug.LogError($"Could not find bone {bone} to attach haptic nodes");
                     attachedSuccessfully = false;
                     continue;
                 }
@@ -82,24 +102,47 @@ namespace Editor
             }
         }
 
+        private static void GetAllPrefabInstances(GameObject root, string prefabName, List<GameObject> foundPrefabInstances)
+        {
+            foreach (Transform child in root.transform)
+            {
+                if (child.gameObject.name == prefabName)
+                {
+                    foundPrefabInstances.Add(child.gameObject);
+                }
+                else
+                {
+                    GetAllPrefabInstances(child.gameObject, prefabName, foundPrefabInstances);
+                }
+            }
+        }
+
         [MenuItem("GameObject/Shockwave/" + RemoveHapticsActionName, false, -1)]
         public static void RemoveShockwaveColliders()
         {
             GameObject gameObject = Selection.activeGameObject;
+            bool foundAnyPrefabInstances = false;
 
-            var existingHapticRegions = gameObject.GetComponentsInChildren<HapticRegion>();
-            if (existingHapticRegions.Length == 0)
+            foreach (string prefabName in PrefabNameToBone.Keys)
             {
-                Debug.LogWarning("No haptics were found on avatar. Canceling operation.");
-                return;
+                List<GameObject> foundPrefabInstances = new List<GameObject>();
+                GetAllPrefabInstances(gameObject, prefabName, foundPrefabInstances);
+
+                foreach (GameObject foundPrefabInstance in foundPrefabInstances)
+                {
+                    DestroyImmediate(foundPrefabInstance);
+                    foundAnyPrefabInstances = true;
+                }
             }
 
-            foreach (HapticRegion hapticRegion in existingHapticRegions)
+            if (foundAnyPrefabInstances)
             {
-                DestroyImmediate(hapticRegion.gameObject);
+                Debug.Log("Haptics removal completed successfully.");
             }
-
-            Debug.Log("Haptics removal completed successfully.");
+            else
+            {
+                Debug.LogWarning("No haptics were found on avatar.");
+            }
         }
 
         [MenuItem("GameObject/Shockwave/Disable self-collision", false, -1)]

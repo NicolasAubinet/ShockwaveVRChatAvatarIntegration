@@ -81,9 +81,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 901037087526729196}
-  - component: {fileID: -8554161963648688736}
   m_Layer: 0
-  m_Name: RightUpperArmColliders
+  m_Name: ShockwaveRightUpperArmColliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -108,19 +107,6 @@ Transform:
   - {fileID: 2465683250457192390}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
---- !u!114 &-8554161963648688736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3444757077438669818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16ec28f9e6061fb40a8f621103d9ba24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bones: 14
 --- !u!1 &4546838079340259694
 GameObject:
   m_ObjectHideFlags: 0
