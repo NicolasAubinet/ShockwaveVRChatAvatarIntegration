@@ -14,7 +14,7 @@ namespace Editor
         private const string CollidersDirectory = "Packages/" + PackageName + "/Prefabs/HapticRegions/";
         private const string RemoveHapticsActionName = "Remove haptics from avatar";
 
-        private static readonly Dictionary<string, HumanBodyBones> PrefabNameToBone = new()
+        private static readonly Dictionary<string, HumanBodyBones> PrefabNameToBone = new Dictionary<string, HumanBodyBones>()
         {
             { "ShockwaveChestColliders", HumanBodyBones.Chest },
             { "ShockwaveLeftCalfColliders", HumanBodyBones.LeftLowerLeg },
