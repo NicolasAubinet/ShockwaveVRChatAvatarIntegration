@@ -56,7 +56,7 @@ MonoBehaviour:
   rootTransform: {fileID: 0}
   shapeType: 1
   radius: 1.1999999
-  height: 7
+  height: 5
   position: {x: 0.1521826, y: -0.9404625, z: 1.3003451}
   rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
   collisionTags:
@@ -176,8 +176,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rootTransform: {fileID: 0}
   shapeType: 1
-  radius: 1.5
-  height: 5.9705014
+  radius: 1.3
+  height: 5
   position: {x: 0.1521826, y: -0.602951, z: -1.5028638}
   rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
   collisionTags:
@@ -248,8 +248,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rootTransform: {fileID: 0}
   shapeType: 1
-  radius: 1.5
-  height: 5.614535
+  radius: 1.3
+  height: 5
   position: {x: 0.1521826, y: -0.2677923, z: 1.502864}
   rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
   collisionTags:
@@ -321,7 +321,7 @@ MonoBehaviour:
   rootTransform: {fileID: 0}
   shapeType: 1
   radius: 1.2000002
-  height: 7
+  height: 5
   position: {x: 0.1521826, y: -0.9601565, z: -1.3003446}
   rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
   collisionTags:
