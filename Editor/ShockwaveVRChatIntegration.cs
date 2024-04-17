@@ -1,7 +1,9 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
+using VRC.SDK3.Dynamics.Contact.Components;
 
 namespace Editor
 {
@@ -98,6 +100,55 @@ namespace Editor
             }
 
             Debug.Log("Haptics removal completed successfully.");
+        }
+
+        [MenuItem("GameObject/Shockwave/Disable self-collision", false, -1)]
+        public static void DisableSelfCollision()
+        {
+            GameObject gameObject = Selection.activeGameObject;
+            var receivers = gameObject.GetComponentsInChildren<VRCContactReceiver>();
+            if (receivers.Length == 0)
+            {
+                Debug.LogWarning("No VRCContactReceiver components found on selected item. Make sure to first add haptics support to avatar.");
+                return;
+            }
+
+            foreach (VRCContactReceiver receiver in receivers)
+            {
+                receiver.allowSelf = false;
+            }
+
+            Debug.Log("Self colliders disabled successfully");
+        }
+
+        [MenuItem("GameObject/Shockwave/Enable self-collision", false, -1)]
+        public static void EnableSelfCollision()
+        {
+            List<string> ForearmHapticParameters = new List<string>() // don't enable self-contact on forearms to not constantly vibrate due to hands
+            {
+                "Shockwave_46",
+                "Shockwave_47",
+                "Shockwave_54",
+                "Shockwave_55",
+            };
+
+            GameObject gameObject = Selection.activeGameObject;
+            var receivers = gameObject.GetComponentsInChildren<VRCContactReceiver>();
+            if (receivers.Length == 0)
+            {
+                Debug.LogWarning("No VRCContactReceiver components found on selected item. Make sure to first add haptics support to avatar.");
+                return;
+            }
+
+            foreach (VRCContactReceiver receiver in receivers)
+            {
+                if (!ForearmHapticParameters.Contains(receiver.parameter))
+                {
+                    receiver.allowSelf = true;
+                }
+            }
+
+            Debug.Log("Self colliders enabled successfully");
         }
     }
 }
