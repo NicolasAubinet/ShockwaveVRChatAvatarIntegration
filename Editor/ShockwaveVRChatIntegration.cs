@@ -158,21 +158,44 @@ namespace Editor
 
             foreach (VRCContactReceiver receiver in receivers)
             {
-                receiver.allowSelf = false;
+                if (receiver.allowSelf)
+                {
+                    GameObject.DestroyImmediate(receiver);
+                }
             }
 
             Debug.Log("Self colliders disabled successfully");
         }
 
+        private static T CopyComponent<T>(T original, GameObject destination) where T : Component
+        {
+            System.Type type = original.GetType();
+            Component copy = destination.AddComponent(type);
+            System.Reflection.FieldInfo[] fields = type.GetFields();
+            foreach (System.Reflection.FieldInfo field in fields)
+            {
+                field.SetValue(copy, field.GetValue(original));
+            }
+            return copy as T;
+        }
+
         [MenuItem("GameObject/Shockwave/Enable self-collision", false, -1)]
         public static void EnableSelfCollision()
         {
-            List<string> ForearmHapticParameters = new List<string>() // don't enable self-contact on forearms to not constantly vibrate due to hands
+            List<string> RightForearmHapticParameters = new List<string>()
             {
-                "Shockwave_46",
-                "Shockwave_47",
+                "Shockwave_52",
+                "Shockwave_53",
                 "Shockwave_54",
                 "Shockwave_55",
+            };
+
+            List<string> LeftForearmHapticParameters = new List<string>()
+            {
+                "Shockwave_44",
+                "Shockwave_45",
+                "Shockwave_46",
+                "Shockwave_47",
             };
 
             GameObject gameObject = Selection.activeGameObject;
@@ -185,9 +208,41 @@ namespace Editor
 
             foreach (VRCContactReceiver receiver in receivers)
             {
-                if (!ForearmHapticParameters.Contains(receiver.parameter))
+                if (receiver.allowSelf)
                 {
-                    receiver.allowSelf = true;
+                    Debug.LogWarning("Found existing self-collision components. Canceling operation.");
+                    return;
+                }
+            }
+
+            foreach (VRCContactReceiver receiver in receivers)
+            {
+                VRCContactReceiver selfReceiver = CopyComponent(receiver, receiver.gameObject);
+                selfReceiver.allowSelf = true;
+                selfReceiver.allowOthers = false;
+                selfReceiver.localOnly = false;
+
+                selfReceiver.collisionTags = new List<string>
+                {
+                    "Shockwave",
+                    "Hand",
+                    "Finger"
+                };
+
+                // Only enable opposite hand vibration on forearms
+                if (RightForearmHapticParameters.Contains(selfReceiver.parameter))
+                {
+                    selfReceiver.collisionTags.Remove("Hand");
+                    selfReceiver.collisionTags.Add("HandL");
+                    selfReceiver.collisionTags.Remove("Finger");
+                    selfReceiver.collisionTags.Add("FingerL");
+                }
+                else if (LeftForearmHapticParameters.Contains(selfReceiver.parameter))
+                {
+                    selfReceiver.collisionTags.Remove("Hand");
+                    selfReceiver.collisionTags.Add("HandR");
+                    selfReceiver.collisionTags.Remove("Finger");
+                    selfReceiver.collisionTags.Add("FingerR");
                 }
             }
 
