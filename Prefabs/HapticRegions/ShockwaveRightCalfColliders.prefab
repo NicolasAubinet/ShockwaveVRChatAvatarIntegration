@@ -104,7 +104,7 @@ MonoBehaviour:
   allowSelf: 0
   allowOthers: 1
   localOnly: 0
-  receiverType: 0
+  receiverType: 2
   parameter: Shockwave_71
   minVelocity: 0.05
 --- !u!1 &6856488486610793809
@@ -176,7 +176,7 @@ MonoBehaviour:
   allowSelf: 0
   allowOthers: 1
   localOnly: 0
-  receiverType: 0
+  receiverType: 2
   parameter: Shockwave_70
   minVelocity: 0.05
 --- !u!1 &7589492706679093633
@@ -248,7 +248,7 @@ MonoBehaviour:
   allowSelf: 0
   allowOthers: 1
   localOnly: 0
-  receiverType: 0
+  receiverType: 2
   parameter: Shockwave_69
   minVelocity: 0.05
 --- !u!1 &7660201018024461903
@@ -320,6 +320,6 @@ MonoBehaviour:
   allowSelf: 0
   allowOthers: 1
   localOnly: 0
-  receiverType: 0
+  receiverType: 2
   parameter: Shockwave_68
   minVelocity: 0.05
