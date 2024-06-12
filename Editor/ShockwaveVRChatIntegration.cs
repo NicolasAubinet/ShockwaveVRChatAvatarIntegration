@@ -42,8 +42,7 @@ using VRC.SDK3.Dynamics.Contact.Components;
                 return;
             }
 
-            var existingHapticRegions = gameObject.GetComponentsInChildren<VRCContactReceiver>();
-            if (existingHapticRegions.Length > 0)
+            if (HasShockwaveColliders())
             {
                 Debug.LogError($"Found existing haptics on avatar. Use the \"{RemoveHapticsActionName}\" action to remove them. Canceling operation.");
                 return;
@@ -112,6 +111,24 @@ using VRC.SDK3.Dynamics.Contact.Components;
                     GetAllPrefabInstances(child.gameObject, prefabName, foundPrefabInstances);
                 }
             }
+        }
+
+        private static bool HasShockwaveColliders()
+        {
+            GameObject gameObject = Selection.activeGameObject;
+
+            foreach (string prefabName in PrefabNameToBone.Keys)
+            {
+                List<GameObject> foundPrefabInstances = new List<GameObject>();
+                GetAllPrefabInstances(gameObject, prefabName, foundPrefabInstances);
+
+                if (foundPrefabInstances.Count > 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         [MenuItem("GameObject/Shockwave/" + RemoveHapticsActionName, false, -1)]
