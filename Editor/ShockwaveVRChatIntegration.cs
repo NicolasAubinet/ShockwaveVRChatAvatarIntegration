@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 using VRC.SDK3.Dynamics.Contact.Components;
 
-namespace Editor
-{
     public class ShockwaveVRChatIntegration : UnityEditor.Editor
     {
         private const string PackageName = "com.shockwave.vrchat.integration";
@@ -249,4 +246,3 @@ namespace Editor
             Debug.Log("Self colliders enabled successfully");
         }
     }
-}
