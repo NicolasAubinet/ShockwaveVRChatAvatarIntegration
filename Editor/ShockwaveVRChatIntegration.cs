@@ -159,7 +159,7 @@ using VRC.SDK3.Dynamics.Contact.Components;
             }
         }
 
-        [MenuItem("GameObject/Shockwave/Disable self-collision", false, -1)]
+        [MenuItem("GameObject/Shockwave/(Debug) Disable self-collision", false, 10)]
         public static void DisableSelfCollision()
         {
             GameObject gameObject = Selection.activeGameObject;
@@ -193,7 +193,7 @@ using VRC.SDK3.Dynamics.Contact.Components;
             return copy as T;
         }
 
-        [MenuItem("GameObject/Shockwave/Enable self-collision", false, -1)]
+        [MenuItem("GameObject/Shockwave/(Debug) Enable self-collision", false, 10)]
         public static void EnableSelfCollision()
         {
             List<string> RightForearmHapticParameters = new List<string>()
