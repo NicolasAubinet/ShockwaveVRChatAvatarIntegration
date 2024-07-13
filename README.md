@@ -9,6 +9,8 @@ You'll then have a new Shockwave menu when right clicking on your avatar. Just c
 
 ![image](https://github.com/NicolasAubinet/ShockwaveVRChatAvatarIntegration/assets/4831228/33792770-7a47-455d-94d7-7a9bf641092b)
 
-You also have the options to enable or disable self-collisions, and remove haptics.
+You will probably have to adjust the haptic sections positions and scales to match your avatar's metrics (you can search for "shockwave colliders" in the hierarchy to find all added haptic sections).
+
+By default, haptics only happen when there is a contact with another avatar, but feel free to test self contact with the "Enable self-collision" (note that self-collisions have a performance impact due to increased contact receivers count).
 
 To actually trigger haptics, you need to run this app on your PC https://github.com/NicolasAubinet/ShockwaveVRChat
