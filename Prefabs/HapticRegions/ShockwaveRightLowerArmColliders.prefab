@@ -68,7 +68,7 @@ MonoBehaviour:
   - Foot
   allowSelf: 0
   allowOthers: 1
-  localOnly: 0
+  localOnly: 1
   receiverType: 2
   parameter: Shockwave_54
   minVelocity: 0.05
@@ -140,7 +140,7 @@ MonoBehaviour:
   - Foot
   allowSelf: 0
   allowOthers: 1
-  localOnly: 0
+  localOnly: 1
   receiverType: 2
   parameter: Shockwave_52
   minVelocity: 0.05
@@ -212,7 +212,7 @@ MonoBehaviour:
   - Foot
   allowSelf: 0
   allowOthers: 1
-  localOnly: 0
+  localOnly: 1
   receiverType: 2
   parameter: Shockwave_53
   minVelocity: 0.05
@@ -319,7 +319,7 @@ MonoBehaviour:
   - Foot
   allowSelf: 0
   allowOthers: 1
-  localOnly: 0
+  localOnly: 1
   receiverType: 2
   parameter: Shockwave_55
   minVelocity: 0.05
