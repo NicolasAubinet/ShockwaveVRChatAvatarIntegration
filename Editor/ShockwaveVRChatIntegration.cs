@@ -234,7 +234,7 @@ using VRC.SDK3.Dynamics.Contact.Components;
                 VRCContactReceiver selfReceiver = CopyComponent(receiver, receiver.gameObject);
                 selfReceiver.allowSelf = true;
                 selfReceiver.allowOthers = false;
-                selfReceiver.localOnly = false;
+                selfReceiver.localOnly = true;
 
                 selfReceiver.collisionTags = new List<string>
                 {
